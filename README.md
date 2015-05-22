@@ -92,14 +92,14 @@ var combined = r.merge(original, delayed);
 
 The following options are accepted:
 - restValue: the value of the events to be treated as rest. `'r'` by default.
-- parseDuration: a function that parses a string and returns [value, duration] array
+- parseDuration: a function that parses a string and returns `[value, duration]` array
 
 ```javascript
-function parseDuration(value) {
+function parser(value) {
   var match = /^([a-z]+)\{(\d+)\}$/.exec(value);
   return [match[1], +match[2]];
 }
-r.sequence("a{10} rest{5} b{15}", null, { restValue: 'rest', parseDuration: parseDuration });
+r.sequence("a{10} rest{5} b{15}", null, { restValue: 'rest', parseDuration: parser });
 // [{ value: 'a', position: 0,    duration: 10 },
 //  { value: 'b', position: 15,   duration: 15 }]
 ```
