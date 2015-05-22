@@ -17,4 +17,12 @@ vows.describe('Sequenze').addBatch({
     assert.deepEqual(s1, s2);
     assert(s1 !== s2, "Are equal but not same");
   },
+  "sequenzes are always ordered": function() {
+    s = sequenze("a b", function(event) {
+      if(event.value == 'a') event.position += 10;
+    });
+    assert.deepEqual(_.pluck(s, 'value'), ['b', 'a']);
+    assert.deepEqual(_.pluck(s, 'duration'), [1/4, 1/4]);
+    assert.deepEqual(_.pluck(s, 'position'), [0.25, 10]);
+  }
 }).export(module);

@@ -2,7 +2,7 @@
 
 var duration = require('note-duration');
 
-module.exports = function(source, transform, options) {
+var Sequence = function(source, transform, options) {
   options = options || {};
   var opts = {};
   opts.parseDuration = options.parseDuration || parse;
@@ -22,8 +22,10 @@ module.exports = function(source, transform, options) {
   var parsed, position = 0;
   seq.forEach(function(e) {
     parsed = opts.parseDuration(e.value);
-    e.value = parsed[0];
-    e.duration = parsed[1];
+    if(parsed) {
+      e.value = parsed.value;
+      e.duration = parsed.duration;
+    }
     e.position = position;
     position += e.duration;
   });
@@ -31,13 +33,23 @@ module.exports = function(source, transform, options) {
   if(transform) {
     seq.forEach(transform);
   }
-  return removeRests(seq, opts.restValue);
+  return Sequence.sort(removeRests(seq, opts.restValue));
 }
+
+Sequence.sort = function(seq) {
+  return seq.sort(function(a, b) {
+    return a.position - b.position;
+  });
+}
+
 
 function parse(value) {
   var split = value.split('/');
   var dur = duration(split[1]);
-  return dur ? [split[0], dur] : [value, 0.25];
+
+  return dur ?
+    { value: split[0], duration: dur } :
+    { value: value, duration: 0.25 }
 }
 
 function removeRests(array, restValue) {
@@ -47,3 +59,4 @@ function removeRests(array, restValue) {
   }
   return result;
 }
+module.exports = Sequence;

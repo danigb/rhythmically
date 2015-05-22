@@ -1,0 +1,6 @@
+
+[0.1.0]
+- Parse strings and arrays
+- Add transformations
+- Add rest support
+- Always sorted
