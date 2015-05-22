@@ -64,7 +64,7 @@ You can change the rest event value with the options.
 #### Transformations
 
 The transform is an optional function that is used to modify the events.  
-For example, used in combination with [note-pitch](http://github.com/dani/note-pitch):
+For example, used in combination with [note-pitch](http://github.com/danigb/note-pitch):
 
 ```javascript
 var pitch = require('note-pitch');
@@ -91,7 +91,17 @@ var combined = sequenze.merge(original, delayed);
 
 The following options are accepted:
 - restValue: the value of the events to be treated as rest. `'r'` by default.
-- parseDuration: a function that parses a string and returns a `{ value: '', duration: 0}` object
+- parseDuration: a function that parses a string and returns [value, duration] array
+
+```javascript
+function parseDuration(value) {
+  var match = /^([a-z]+)\{(\d+)\}$/.exec(value);
+  return [match[1], +match[2]];
+}
+sequenze("a{10} rest{5} b{15}", null, { restValue: 'rest', parseDuration: parseDuration });
+// [{ value: 'a', position: 0,    duration: 10 },
+//  { value: 'b', position: 15,   duration: 15 }]
+```
 
 ### sequenze.duration(seq)
 

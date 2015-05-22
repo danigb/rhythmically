@@ -5,7 +5,7 @@ var duration = require('note-duration');
 var Sequence = function(source, transform, options) {
   options = options || {};
   var opts = {};
-  opts.parseDuration = options.parseDuration || parse;
+  opts.parseDuration = options.parseDuration || parseDuration;
   opts.restValue = options.restValue || 'r';
 
   if(typeof(source) === 'string') {
@@ -23,8 +23,8 @@ var Sequence = function(source, transform, options) {
   seq.forEach(function(e) {
     parsed = opts.parseDuration(e.value);
     if(parsed) {
-      e.value = parsed.value;
-      e.duration = parsed.duration;
+      e.value = parsed[0]
+      e.duration = +parsed[1];
     }
     e.position = position;
     position += e.duration;
@@ -68,13 +68,10 @@ Sequence.concat = function() {
 }
 
 
-function parse(value) {
+function parseDuration(value) {
   var split = value.split('/');
   var dur = duration(split[1]);
-
-  return dur ?
-    { value: split[0], duration: dur } :
-    { value: value, duration: 0.25 }
+  return dur ? [split[0], dur] : [value, 0.25 ];
 }
 
 function removeRests(array, restValue) {
