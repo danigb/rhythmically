@@ -42,6 +42,14 @@ Sequence.sort = function(seq) {
   });
 }
 
+Sequence.merge = function() {
+  var result = [];
+  for(var i = 0, total = arguments.length; i < total; i++) {
+    result = result.concat(arguments[i]);
+  }
+  return Sequence.sort(result);
+}
+
 
 function parse(value) {
   var split = value.split('/');

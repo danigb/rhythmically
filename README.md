@@ -36,13 +36,12 @@ var sequence = require('sequenze');
 
 ### sequence(source [, transform] [, options])
 
-__Parsing__
-
 Returns an array of objects where `value`, `position` and `duration` are
 __always__ defined (the first as string, the others as numbers).
 
 The durations are expresed in musical names ('whole', 'eight') and separated
-by a `/`. If no duration given, 1/4 is the default.
+by a `/`. If no duration given, 1/4 is the default. This can be customized
+with a options.parseDuration function (see options below).
 
 The source can be a string or an array:
 
@@ -62,7 +61,7 @@ s = sequence('a r/w b');
 ```
 You can change the rest event value with the options.
 
-__Transformations__
+#### Transformations
 
 The transform is an optional function that is used to transform the events.  
 For example, used in combination with [note-pitch](http://github.com/dani/note-pitch):
@@ -87,8 +86,12 @@ delayed = sequence(original, function(event) {
 });
 ```
 
-__Options__
+#### Options
 
 The following options are accepted:
 - restValue: the value of the events to be treated as rest. `'r'` by default.
 - parseDuration: a function that parses a string and returns a `{ value: '', duration: 0}` object
+
+### sequenze.merge(seq1, seq2 [, seq3, ...])
+
+Merges the given sequences:

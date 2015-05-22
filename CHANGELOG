@@ -1,6 +1,7 @@
 
 [0.1.0]
-- Parse strings and arrays
+- Merge method
+- Always sorted
 - Add transformations
 - Add rest support
-- Always sorted
+- Parse strings and arrays
