@@ -1,5 +1,7 @@
 
 [0.1.0]
+- Concat method
+- Duration method
 - Merge method
 - Always sorted
 - Add transformations

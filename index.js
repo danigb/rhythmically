@@ -36,6 +36,11 @@ var Sequence = function(source, transform, options) {
   return Sequence.sort(removeRests(seq, opts.restValue));
 }
 
+Sequence.duration = function(seq) {
+  var last = seq[seq.length - 1];
+  return last.position + last.duration;
+}
+
 Sequence.sort = function(seq) {
   return seq.sort(function(a, b) {
     return a.position - b.position;
@@ -48,6 +53,18 @@ Sequence.merge = function() {
     result = result.concat(arguments[i]);
   }
   return Sequence.sort(result);
+}
+
+Sequence.concat = function() {
+  var result = [], seq, position = 0;
+  for(var s = 0, total = arguments.length; s < total; s++) {
+    seq = arguments[s];
+    result = result.concat(Sequence(seq, function(event) {
+      event.position += position;
+    }));
+    position += Sequence.duration(seq);
+  }
+  return result;
 }
 
 

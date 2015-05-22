@@ -92,6 +92,30 @@ The following options are accepted:
 - restValue: the value of the events to be treated as rest. `'r'` by default.
 - parseDuration: a function that parses a string and returns a `{ value: '', duration: 0}` object
 
+### sequenze.duration(seq)
+
+Return the total duration of a sequence array
+
 ### sequenze.merge(seq1, seq2 [, seq3, ...])
 
 Merges the given sequences:
+
+```javascript
+sequenze.merge(sequenze('a b'), sequence('c d'));
+// [{ value: 'a', position: 0,    duration: 0.25 },
+//  { value: 'c', position: 0,    duration: 0.25 },
+//  { value: 'b', position: 0.25, duration: 0.25 },
+//  { value: 'd', position: 0.25, duration: 0.25 }]
+```
+
+### sequenze.concat(seq1, seq2 [, seq3, seq4, ...])
+
+Concatenates the given sequences:
+
+```javascript
+sequenze.concat(sequenze('a b'), sequence('c d'));
+// [{ value: 'a', position: 0,    duration: 0.25 },
+//  { value: 'b', position: 0.25,    duration: 0.25 },
+//  { value: 'c', position: 0.50, duration: 0.25 },
+//  { value: 'd', position: 0.75, duration: 0.25 }]
+```
