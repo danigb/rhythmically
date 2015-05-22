@@ -1,0 +1,35 @@
+{
+  "name": "sequenze",
+  "version": "0.1.0",
+  "description": "Create musica sequences",
+  "main": "index.js",
+  "scripts": {
+    "test": "vows test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danigb/sequenze.git"
+  },
+  "keywords": [
+    "music",
+    "sequence",
+    "solfege",
+    "theory",
+    "notes",
+    "chords",
+    "time"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/sequenze/issues"
+  },
+  "homepage": "https://github.com/danigb/sequenze",
+  "devDependencies": {
+    "lodash": "^3.9.1",
+    "vows": "^0.8.1"
+  },
+  "dependencies": {
+    "note-duration": "^1.1.0"
+  }
+}
