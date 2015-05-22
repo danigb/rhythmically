@@ -5,7 +5,7 @@ optional durations, and returns an array of objects in the
 form: `{ value: '', position: 0, duration: 0 }` ordered by `position`.
 
 ```javascript
-var s = sequence('a/q b/q c/e');
+var s = sequenze('a/q b/q c/e');
 // [{ value: 'a', position: 0, duration: 0.25 }
 //  { value: 'b', position: 0.25, duration: 0.25 }
 //  { value: 'c', position: 0.5, duration: 0.125 }]
@@ -18,7 +18,7 @@ It is agnostic about the content of the event (the value). It only cares about
 durations and positions:
 
 ```javascript
-var s = sequence('Cm/d Dm/w G7/w');
+var s = sequenze('Cm/d Dm/w G7/w');
 // [{ value: 'Cm', position: 0, duration: 2}]
 //  { value: 'Dm', position: 2, duration: 1}]
 //  { value: 'G7', position: 3, duration: 1}]
@@ -29,33 +29,33 @@ var s = sequence('Cm/d Dm/w G7/w');
 Add the module to your project `npm i --save sequenze` and require it:
 
 ```javascript
-var sequence = require('sequenze');
+var sequenze = require('sequenze');
 ```
 
 ## API
 
-### sequence(source [, transform] [, options])
+### sequenze(source [, transform] [, options])
 
 Returns an array of objects where `value`, `position` and `duration` are
 __always__ defined (the first as string, the others as numbers).
 
-The durations are expresed in musical names ('whole', 'eight') and separated
+The durations are expressed in musical names ('whole', 'eight') and separated
 by a `/`. If no duration given, 1/4 is the default. This can be customized
 with a options.parseDuration function (see options below).
 
 The source can be a string or an array:
 
 ```javascript
-s1 = sequence('c d');
+s1 = sequenze('c d');
 // [{ value: 'c', position: 0, value: 0.25 },
 //  { value: 'd', position: 0.25, value: 0.25 }]
-s2 = sequence(['c', 'd']);
+s2 = sequenze(['c', 'd']);
 // s2 is equal to s1
 ```
 
 By default, events with value equal to 'r' are treated as rests:
 ```javascript
-s = sequence('a r/w b');
+s = sequenze('a r/w b');
 // [{ value: 'a', position: 0, value: 0.25},
 //  { value: 'b', position: 1, value: 0.25}]
 ```
@@ -63,13 +63,13 @@ You can change the rest event value with the options.
 
 #### Transformations
 
-The transform is an optional function that is used to transform the events.  
+The transform is an optional function that is used to modify the events.  
 For example, used in combination with [note-pitch](http://github.com/dani/note-pitch):
 
 ```javascript
 var pitch = require('note-pitch');
 
-s = sequence('c d e', function(event) {
+s = sequenze('c d e', function(event) {
   event.value = pitch.transpose(event.value, 'M2');
 });
 // [{ value: 'd', position: 0, duration: 0.25}
@@ -77,13 +77,14 @@ s = sequence('c d e', function(event) {
 //  { value: 'f#', position: 0.5, duration: 0.25}]
 ```
 
-You can use it to transform sequences:
+You can use it to transform previously parsed sequences:
 
 ```javascript
-original = sequence('c d e');
-delayed = sequence(original, function(event) {
+var original = sequenze('c d e');
+var delayed = sequenze(original, function(event) {
   event.position += 0.25;
 });
+var combined = sequenze.merge(original, delayed);
 ```
 
 #### Options
@@ -101,7 +102,7 @@ Return the total duration of a sequence array
 Merges the given sequences:
 
 ```javascript
-sequenze.merge(sequenze('a b'), sequence('c d'));
+sequenze.merge(sequenze('a b'), sequenze('c d'));
 // [{ value: 'a', position: 0,    duration: 0.25 },
 //  { value: 'c', position: 0,    duration: 0.25 },
 //  { value: 'b', position: 0.25, duration: 0.25 },
@@ -113,9 +114,13 @@ sequenze.merge(sequenze('a b'), sequence('c d'));
 Concatenates the given sequences:
 
 ```javascript
-sequenze.concat(sequenze('a b'), sequence('c d'));
+sequenze.concat(sequenze('a b'), sequenze('c d'));
 // [{ value: 'a', position: 0,    duration: 0.25 },
 //  { value: 'b', position: 0.25,    duration: 0.25 },
 //  { value: 'c', position: 0.50, duration: 0.25 },
 //  { value: 'd', position: 0.75, duration: 0.25 }]
 ```
+
+## License
+
+MIT License
