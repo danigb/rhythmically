@@ -1,14 +1,14 @@
 {
-  "name": "sequenze",
-  "version": "0.1.0",
-  "description": "Create musica sequences",
+  "name": "rhythmically",
+  "version": "0.2.0",
+  "description": "Create musical sequences easily",
   "main": "index.js",
   "scripts": {
     "test": "vows test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danigb/sequenze.git"
+    "url": "https://github.com/danigb/rhythmically.git"
   },
   "keywords": [
     "music",
@@ -17,14 +17,15 @@
     "theory",
     "notes",
     "chords",
-    "time"
+    "time",
+    "parse"
   ],
   "author": "danigb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/danigb/sequenze/issues"
+    "url": "https://github.com/danigb/rhythmically/issues"
   },
-  "homepage": "https://github.com/danigb/sequenze",
+  "homepage": "https://github.com/danigb/rhythmically",
   "devDependencies": {
     "lodash": "^3.9.1",
     "vows": "^0.8.1"

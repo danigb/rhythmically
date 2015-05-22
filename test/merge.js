@@ -2,11 +2,11 @@ vows = require('vows');
 assert = require('assert');
 _ = require('lodash');
 
-sequence = require('../');
+r = require('../');
 
-vows.describe('sequence').addBatch({
-  "merge sequence": function() {
-    s = sequence.merge(sequence('a b'), sequence('d e'));
+vows.describe('Rhythmically merge').addBatch({
+  "merge sequences": function() {
+    s = r.merge(r.sequence('a b'), r.sequence('d e'));
     assert.equal(s.length, 4);
     assert.deepEqual(_.pluck(s, 'value'), ['a', 'd', 'b', 'e']);
     assert.deepEqual(_.pluck(s, 'duration'), [1/4, 1/4, 1/4, 1/4]);

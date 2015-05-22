@@ -2,11 +2,11 @@ vows = require('vows');
 assert = require('assert');
 _ = require('lodash');
 
-sequence = require('../');
+r = require('../');
 
-vows.describe('sequence').addBatch({
-  "concat sequence": function() {
-    s = sequence.concat(sequence('a b'), sequence('c d'));
+vows.describe('Rhythmically concat').addBatch({
+  "concat sequences": function() {
+    s = r.concat(r.sequence('a b'), r.sequence('c d'));
     assert.equal(s.length, 4);
     assert.deepEqual(_.pluck(s, 'value'), ['a', 'b', 'c', 'd']);
     assert.deepEqual(_.pluck(s, 'duration'), [1/4, 1/4, 1/4, 1/4]);

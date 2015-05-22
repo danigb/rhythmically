@@ -2,7 +2,9 @@
 
 var duration = require('note-duration');
 
-var Sequence = function(source, transform, options) {
+var Rhythmically = {};
+
+Rhythmically.sequence = function(source, transform, options) {
   options = options || {};
   var opts = {};
   opts.parseDuration = options.parseDuration || parseDuration;
@@ -33,40 +35,39 @@ var Sequence = function(source, transform, options) {
   if(transform) {
     seq.forEach(transform);
   }
-  return Sequence.sort(removeRests(seq, opts.restValue));
+  return Rhythmically.sort(removeRests(seq, opts.restValue));
 }
 
-Sequence.duration = function(seq) {
+Rhythmically.duration = function(seq) {
   var last = seq[seq.length - 1];
   return last.position + last.duration;
 }
 
-Sequence.sort = function(seq) {
+Rhythmically.sort = function(seq) {
   return seq.sort(function(a, b) {
     return a.position - b.position;
   });
 }
 
-Sequence.merge = function() {
+Rhythmically.merge = function() {
   var result = [];
   for(var i = 0, total = arguments.length; i < total; i++) {
     result = result.concat(arguments[i]);
   }
-  return Sequence.sort(result);
+  return Rhythmically.sort(result);
 }
 
-Sequence.concat = function() {
+Rhythmically.concat = function() {
   var result = [], seq, position = 0;
   for(var s = 0, total = arguments.length; s < total; s++) {
     seq = arguments[s];
-    result = result.concat(Sequence(seq, function(event) {
+    result = result.concat(Rhythmically.sequence(seq, function(event) {
       event.position += position;
     }));
-    position += Sequence.duration(seq);
+    position += Rhythmically.duration(seq);
   }
   return result;
 }
-
 
 function parseDuration(value) {
   var split = value.split('/');
@@ -81,4 +82,5 @@ function removeRests(array, restValue) {
   }
   return result;
 }
-module.exports = Sequence;
+
+module.exports = Rhythmically;

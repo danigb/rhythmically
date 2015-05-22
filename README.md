@@ -1,24 +1,25 @@
-# Sequenze
+# Rhythmically
 
-Create musical sequences with javascript. Sequenze parses a string with
+Create musical sequences with javascript. Rhythmically parses a string with
 optional durations, and returns an array of objects in the
 form: `{ value: '', position: 0, duration: 0 }` ordered by `position`.
 
 ```javascript
-var s = sequenze('a/q b/q c/e');
+var r = require('rhythmically');
+var s = r.sequence('a/q b/q c/e');
 // [{ value: 'a', position: 0, duration: 0.25 }
 //  { value: 'b', position: 0.25, duration: 0.25 }
 //  { value: 'c', position: 0.5, duration: 0.125 }]
 ```
 
-Sequenze uses [note-duration](http://github.com/danigb/note-duration) to convert
+Rhythmically uses [note-duration](http://github.com/danigb/note-duration) to convert
 from duration names ('quarter', 'whole', 'q.') to duration values.
 
 It is agnostic about the content of the event (the value). It only cares about
 durations and positions:
 
 ```javascript
-var s = sequenze('Cm/d Dm/w G7/w');
+var s = r.sequence('Cm/d Dm/w G7/w');
 // [{ value: 'Cm', position: 0, duration: 2}]
 //  { value: 'Dm', position: 2, duration: 1}]
 //  { value: 'G7', position: 3, duration: 1}]
@@ -26,15 +27,15 @@ var s = sequenze('Cm/d Dm/w G7/w');
 
 ## Usage
 
-Add the module to your project `npm i --save sequenze` and require it:
+Add the module to your project `npm i --save rhythmically` and require it:
 
 ```javascript
-var sequenze = require('sequenze');
+var r = require('rhythmically');
 ```
 
 ## API
 
-### sequenze(source [, transform] [, options])
+### Rhythmically.sequence(source [, transform] [, options])
 
 Returns an array of objects where `value`, `position` and `duration` are
 __always__ defined (the first as string, the others as numbers).
@@ -46,16 +47,16 @@ with a options.parseDuration function (see options below).
 The source can be a string or an array:
 
 ```javascript
-s1 = sequenze('c d');
+s1 = r.sequence('c d');
 // [{ value: 'c', position: 0, value: 0.25 },
 //  { value: 'd', position: 0.25, value: 0.25 }]
-s2 = sequenze(['c', 'd']);
+s2 = r.sequence(['c', 'd']);
 // s2 is equal to s1
 ```
 
 By default, events with value equal to 'r' are treated as rests:
 ```javascript
-s = sequenze('a r/w b');
+s = r.sequence('a r/w b');
 // [{ value: 'a', position: 0, value: 0.25},
 //  { value: 'b', position: 1, value: 0.25}]
 ```
@@ -69,7 +70,7 @@ For example, used in combination with [note-pitch](http://github.com/danigb/note
 ```javascript
 var pitch = require('note-pitch');
 
-s = sequenze('c d e', function(event) {
+s = r.sequence('c d e', function(event) {
   event.value = pitch.transpose(event.value, 'M2');
 });
 // [{ value: 'd', position: 0, duration: 0.25}
@@ -80,11 +81,11 @@ s = sequenze('c d e', function(event) {
 You can use it to transform previously parsed sequences:
 
 ```javascript
-var original = sequenze('c d e');
-var delayed = sequenze(original, function(event) {
+var original = r.sequence('c d e');
+var delayed = r.sequence(original, function(event) {
   event.position += 0.25;
 });
-var combined = sequenze.merge(original, delayed);
+var combined = r.merge(original, delayed);
 ```
 
 #### Options
@@ -98,33 +99,33 @@ function parseDuration(value) {
   var match = /^([a-z]+)\{(\d+)\}$/.exec(value);
   return [match[1], +match[2]];
 }
-sequenze("a{10} rest{5} b{15}", null, { restValue: 'rest', parseDuration: parseDuration });
+r.sequence("a{10} rest{5} b{15}", null, { restValue: 'rest', parseDuration: parseDuration });
 // [{ value: 'a', position: 0,    duration: 10 },
 //  { value: 'b', position: 15,   duration: 15 }]
 ```
 
-### sequenze.duration(seq)
+### Rhythmically.duration(seq)
 
 Return the total duration of a sequence array
 
-### sequenze.merge(seq1, seq2 [, seq3, ...])
+### Rhythmically.merge(seq1, seq2 [, seq3, ...])
 
 Merges the given sequences:
 
 ```javascript
-sequenze.merge(sequenze('a b'), sequenze('c d'));
+r.merge(r.sequence('a b'), r.sequence('c d'));
 // [{ value: 'a', position: 0,    duration: 0.25 },
 //  { value: 'c', position: 0,    duration: 0.25 },
 //  { value: 'b', position: 0.25, duration: 0.25 },
 //  { value: 'd', position: 0.25, duration: 0.25 }]
 ```
 
-### sequenze.concat(seq1, seq2 [, seq3, seq4, ...])
+### Rhythmically.concat(seq1, seq2 [, seq3, seq4, ...])
 
 Concatenates the given sequences:
 
 ```javascript
-sequenze.concat(sequenze('a b'), sequenze('c d'));
+r.concat(r.sequence('a b'), r.sequence('c d'));
 // [{ value: 'a', position: 0,    duration: 0.25 },
 //  { value: 'b', position: 0.25,    duration: 0.25 },
 //  { value: 'c', position: 0.50, duration: 0.25 },
