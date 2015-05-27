@@ -1,6 +1,6 @@
 {
   "name": "rhythmically",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create musical sequences easily",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
     "vows": "^0.8.1"
   },
   "dependencies": {
-    "note-duration": "^1.1.0"
+    "note-duration": "^1.2.0"
   }
 }

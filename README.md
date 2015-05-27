@@ -13,7 +13,7 @@ var s = r.sequence('a/q b/q c/e');
 ```
 
 Rhythmically uses [note-duration](http://github.com/danigb/note-duration) to convert
-from duration names ('quarter', 'whole', 'q.') to duration values.
+from duration names ('quarter', 'whole', 'q.') to duration values. You can also use numbers (`c2/4` means a C at 2 octave with quarter length).
 
 It is agnostic about the content of the event (the value). It only cares about
 durations and positions:

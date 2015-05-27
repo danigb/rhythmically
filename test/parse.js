@@ -29,5 +29,10 @@ vows.describe('Parse sequence').addBatch({
     s = r.sequence('a2/a b2/b');
     assert.deepEqual(_.pluck(s, 'value'), 'a2/a b2/b'.split(' '));
     assert.deepEqual(_.pluck(s, 'duration'), [0.25, 0.25]);
+  },
+  "duration in number": function() {
+    s = r.sequence('a2/4 c#4/8');
+    assert.deepEqual(_.pluck(s, 'value'), ['a2', 'c#4']);
+    assert.deepEqual(_.pluck(s, 'duration'), [0.25, 0.125]);
   }
 }).export(module);
