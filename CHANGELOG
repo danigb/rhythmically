@@ -1,3 +1,6 @@
+[0.2.1]
+- Update to note-duration 1.2.0 (accept numbers as duration)
+
 [0.2.0]
 - Rename to Rhythmically
 
